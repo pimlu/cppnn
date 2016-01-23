@@ -120,6 +120,12 @@ num score(MLP &net, vector<MLP::sample> &testset) {
   return correct/(num)testset.size();
 }
 
+void test(MLP &net, vector<MLP::sample> &testset, const char* name) {
+  cout<<"testing..."<<endl;
+  num accuracy = score(net, testset);
+  cout<<name<<" accuracy is "<<accuracy<<endl;
+}
+
 int mnist(int argc, char **argv) {
   if(argc < 2) {
     cout<<"need data dir as an argument"<<endl;
@@ -151,22 +157,19 @@ int mnist(int argc, char **argv) {
   vector<MLP::sample> trainset = convert(traindat);
   vector<MLP::sample> testset = convert(testdat);
   ArrayXi layers(3);
-  layers << 28*28, 10*10, 10;
+  layers << 28*28, 6*6, 10;
   cout<<"initializing net..."<<endl;
   MLP net(layers, 0.5);
-  cout<<"testing..."<<endl;
-  num test = score(net, testset);
-  cout<<"accuracy is "<<test<<endl;
-  const int ITERS = 1000;
-  const size_t BATCH = 100;
+  const int ITERS = 50;
+  const size_t BATCH = 700;
   cout<<"training for "<<ITERS<<" iterations... minibatch size "<<BATCH<<endl;
   for(int i=0; i<ITERS; i++) {
+    if(i%10==0) test(net, testset, "test");
     cout<<"iteration "<<i<<endl;
     net.rprop(trainset, 0.1, 1.2, 0.5, BATCH);
   }
-  cout<<"testing..."<<endl;
-  test = score(net, testset);
-  cout<<"accuracy is "<<score(net, testset)<<endl;
+  test(net, trainset, "train");
+  test(net, testset, "test");
   
   for(size_t i=0; i<4; i++) delete ifs[i];
   return 0;

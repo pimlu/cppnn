@@ -12,7 +12,7 @@ Provided you have a C++ compiler and Eigen headers installed, you should be able
 
 ### Running
 
-The binary will be in `dist/cppnn`.  Right now `main.cpp` includes a basic example that does training of a small (not minimal) network to fit XOR.  `mnist.cpp` (which `main` calls right now) trains on MNIST data.  As it is, it gets about 85% accuracy after a minute and 20 seconds of training.  It needs the MNIST data in a directory you pass in as an argument.
+The binary will be in `dist/cppnn`.  Right now `main.cpp` includes a basic example that does training of a small (not minimal) network to fit XOR.  `mnist.cpp` (which `main` calls right now) trains on MNIST data.  As it is, it gets about 90% accuracy after ten seconds or so of training.  It needs the MNIST data in a directory you pass in as an argument.
 
 ### //TODO
  * RPROP tweaks (need to limit weights, among other things)
