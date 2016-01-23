@@ -100,14 +100,22 @@ void MLP::bprop(const sample &goal) {
     }
   }
 }
-void MLP::train(const std::vector<sample> trainset, num eta) {
+void MLP::train(const std::vector<sample> &trainset, num eta) {
   resetpdiffs();
   for(const sample &s: trainset) bprop(s);
   applypdiffs(eta/trainset.size());
 }
-void MLP::rprop(const std::vector<sample> trainset, num etai, num etap, num etan) {
+void MLP::rprop(const std::vector<sample> &trainset, num etai, num etap, num etan) {
+  rprop(trainset, etai, etap, etan, -1);
+}
+void MLP::rprop(const std::vector<sample> &trainset, num etai, num etap, num etan, size_t batch) {
   resetpdiffs();
-  for(const sample &s: trainset) bprop(s);
+  if(batch == -1) for(const sample &s: trainset) bprop(s);
+  else {
+    for(size_t i=0; i<batch; i++) {
+      bprop(trainset[std::rand()%trainset.size()]);
+    }
+  }
   if(pdextra.size() == 0) {
     for(auto const &weight: weights) {
       pdextra.push_back(MatrixXn(weight.rows(),weight.cols()));

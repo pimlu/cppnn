@@ -1,5 +1,5 @@
 OPT=
-CXXFLAGS=$(OPT) -c -g -Wall -std=c++11
+CXXFLAGS=$(OPT) -c -g -O2 -Wall -std=c++11
 LDFLAGS=
 
 SOURCES=$(shell find src -name "*.cpp")

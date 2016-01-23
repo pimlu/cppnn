@@ -1,12 +1,13 @@
 #include "MLP.h"
+#include "mnist.h"
 
 #include <iostream>
 #include <vector>
 #include <initializer_list>
 
 //rand
-#include <stdlib.h>
-#include <time.h> 
+#include <cstdlib>
+#include <ctime> 
 
 using namespace Eigen;
 using namespace std;
@@ -42,8 +43,7 @@ void tryall(MLP net) {
   }
 }
 
-int main(int argc, char **argv) {
-  srand((unsigned int) time(0));
+int doxor() {
   ArrayXi layers(3);
   layers << 2, 6, 1;
   
@@ -65,5 +65,9 @@ int main(int argc, char **argv) {
   print("WEIGHTS", net.weights);
   
   tryall(net);
-  
+  return 0;
+}
+int main(int argc, char **argv) {
+  srand((unsigned int) time(0));
+  return mnist(argc, argv);
 }

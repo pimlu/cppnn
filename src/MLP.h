@@ -3,11 +3,14 @@
 #include <Eigen/Dense>
 
 #include <vector>
+#include <utility>
+#include <cstdlib>
 
 using num = double;
 typedef Eigen::Matrix<num, Eigen::Dynamic, Eigen::Dynamic> MatrixXn;
 typedef Eigen::Matrix<num, Eigen::Dynamic, 1> VectorXn;
 typedef Eigen::Matrix<num, 1, Eigen::Dynamic, Eigen::RowMajor> RowVectorXn;
+typedef Eigen::Matrix<num, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> RowMatrixXn;
 typedef Eigen::Array<num, Eigen::Dynamic, Eigen::Dynamic> ArrayXXn;
 typedef Eigen::Array<num, Eigen::Dynamic, 1> ArrayXn;
 
@@ -16,6 +19,7 @@ class MLP {
   std::vector<MatrixXn> pdiffs;
   std::vector<MatrixXn> pdextra;
 public:
+  //<in, out>
   typedef std::pair<ArrayXn, ArrayXn> sample;
   Eigen::ArrayXi layers;
   std::vector<MatrixXn> weights;//weights to layer i
@@ -27,6 +31,7 @@ public:
   void resetpdiffs();
   void applypdiffs(num eta);
   void bprop(const sample &target);
-  void train(const std::vector<sample> trainset, num eta);
-  void rprop(const std::vector<sample> trainset, num etai, num etap, num etan);
+  void train(const std::vector<sample> &trainset, num eta);
+  void rprop(const std::vector<sample> &trainset, num etai, num etap, num etan);
+  void rprop(const std::vector<sample> &trainset, num etai, num etap, num etan, std::size_t batch);
 };
